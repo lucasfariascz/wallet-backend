@@ -8,6 +8,9 @@ import { CurrencyOfferModel } from '../database/currencyOffer.model'
 import { RepositoryService } from '@/shared/database/repository.service'
 import { SubmitOfferInputDTO } from '../../presentation/dto/submit-offer.input.dto'
 import { DeleteOfferInputDTO } from '../../presentation/dto/delete-offer.input.dto'
+import { CurrencyModel } from '@/features/user/infra/database/currency.model'
+import { UserModel } from '@/features/user/infra/database/user.model'
+import { Guid } from 'guid-typescript'
 
 @injectable()
 export class OfferRepositoryImpl implements OfferRepository {
@@ -32,10 +35,15 @@ export class OfferRepositoryImpl implements OfferRepository {
 
   async submitOffer(submitRequest: SubmitOfferInputDTO): Promise<string> {
     const currencyOfferModel = new CurrencyOfferModel()
+    currencyOfferModel.id = Guid.create().toString()
     currencyOfferModel.unitPrice = submitRequest.unitPrice
     currencyOfferModel.quantity = submitRequest.quantity
+    currencyOfferModel.currency = new CurrencyModel()
+    currencyOfferModel.currency.id = submitRequest.currencyId
+    currencyOfferModel.user = new UserModel()
+    currencyOfferModel.user.id = submitRequest.userId
     await this.offerRepository.save(currencyOfferModel)
-    return 'Sucesso!'
+    return 'Oferta criada com sucesso!'
   }
 
   async deleteOffer(deleteRequest: DeleteOfferInputDTO): Promise<string> {

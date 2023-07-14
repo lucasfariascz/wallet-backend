@@ -18,4 +18,12 @@ export class UserRepositoryImpl implements UserRepository {
     const userModel = await this.userRepository.createQueryBuilder('user').where('"user"."Id" = :id', { id: id }).getOne()
     return userMapper.map(userModel, User, UserModel)
   }
+
+  async checkUserWithBalance(userId: string, currencyId: string): Promise<UserModel> {
+    const user = await this.userRepository.createQueryBuilder('user')
+      .leftJoinAndSelect('user.balances', 'balances')
+      .where('"user"."Id" = :id', { id: userId })
+      .andWhere('balances.currencyId = :currencyId', { currencyId }).getOne()
+    return user
+  }
 }

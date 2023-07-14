@@ -17,6 +17,7 @@ export class SubmitOfferController {
   async submitOffer(request: Request): Promise<string> {
     const submitRequest = new SubmitOfferInputDTO()
     submitRequest.userId = request.body.userId
+    submitRequest.currencyId = request.body.currencyId
     submitRequest.unitPrice = request.body.unitPrice
     submitRequest.quantity = request.body.quantity
     return this.submitOfferUseCase
