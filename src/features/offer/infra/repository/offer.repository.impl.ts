@@ -7,6 +7,7 @@ import { Repository } from 'typeorm'
 import { CurrencyOfferModel } from '../database/currencyOffer.model'
 import { RepositoryService } from '@/shared/database/repository.service'
 import { SubmitOfferInputDTO } from '../../presentation/dto/submit-offer.input.dto'
+import { DeleteOfferInputDTO } from '../../presentation/dto/delete-offer.input.dto'
 
 @injectable()
 export class OfferRepositoryImpl implements OfferRepository {
@@ -28,6 +29,11 @@ export class OfferRepositoryImpl implements OfferRepository {
     currencyOfferModel.unitPrice = submitRequest.unitPrice
     currencyOfferModel.quantity = submitRequest.quantity
     await this.offerRepository.save(currencyOfferModel)
+    return 'Sucesso!'
+  }
+
+  async deleteOffer(deleteRequest: DeleteOfferInputDTO): Promise<string> {
+    await this.offerRepository.softDelete(deleteRequest.currencyOfferId)
     return 'Sucesso!'
   }
 }
