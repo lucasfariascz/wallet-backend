@@ -6,6 +6,7 @@ import { OfferRepository } from '../../domain/repositories/offer.repository'
 import { Repository } from 'typeorm'
 import { CurrencyOfferModel } from '../database/currencyOffer.model'
 import { RepositoryService } from '@/shared/database/repository.service'
+import { SubmitOfferInputDTO } from '../../presentation/dto/submit-offer.input.dto'
 
 @injectable()
 export class OfferRepositoryImpl implements OfferRepository {
@@ -20,5 +21,13 @@ export class OfferRepositoryImpl implements OfferRepository {
     previousDate.setDate(currentDate.getDate() - 1)
     const offerModel = await this.offerRepository.createQueryBuilder('currencyOffer').where('"currencyOffer"."CreationTime" > :previousDate', { previousDate: new Date() }).getMany()
     return offerMapper.mapArray(offerModel, Offer, CurrencyOfferModel)
+  }
+
+  async submitOffer(submitRequest: SubmitOfferInputDTO): Promise<string> {
+    const currencyOfferModel = new CurrencyOfferModel()
+    currencyOfferModel.unitPrice = submitRequest.unitPrice
+    currencyOfferModel.quantity = submitRequest.quantity
+    await this.offerRepository.save(currencyOfferModel)
+    return 'Sucesso!'
   }
 }

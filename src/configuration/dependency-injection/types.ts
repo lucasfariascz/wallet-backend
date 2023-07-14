@@ -4,7 +4,9 @@ const TYPES = {
   GetUserUseCase: 'GetUserUseCase',
   ListOffersUseCase: 'ListOffersUseCase',
   RepositoryService: 'RepositoryService',
-  OfferRepository: 'OfferRepository'
+  OfferRepository: 'OfferRepository',
+  SubmitOfferUseCase: 'SubmitOfferUseCase',
+  DeleteOfferUseCase: 'DeleteOfferUseCase'
 }
 
 export { TYPES }
