@@ -1,5 +1,5 @@
 import { Offer } from '../entities/offer'
 
 export interface ListOffersUseCase {
-  execute(): Promise<Offer[]>
+  execute(requestOffer: Offer): Promise<Offer[]>
 }

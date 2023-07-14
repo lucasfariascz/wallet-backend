@@ -12,9 +12,7 @@ export class ListOffersUseCaseImpl implements ListOffersUseCase {
     this.offerRepository = offerRepository
   }
 
-  async execute(): Promise<Offer[]> {
-    const foundUser = await this.offerRepository.listOffers()
-
-    return foundUser
+  async execute(requestOffer: Offer): Promise<Offer[]> {
+    return await this.offerRepository.listOffers(requestOffer)
   }
 }

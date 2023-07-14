@@ -16,11 +16,17 @@ export class OfferRepositoryImpl implements OfferRepository {
     this.offerRepository = repositoryService.getRepository(CurrencyOfferModel)
   }
 
-  async listOffers(): Promise<Offer[]> {
+  async listOffers(requestOffer: Offer): Promise<Offer[]> {
     const currentDate = new Date()
     const previousDate = new Date()
     previousDate.setDate(currentDate.getDate() - 1)
-    const offerModel = await this.offerRepository.createQueryBuilder('currencyOffer').where('"currencyOffer"."CreationTime" > :previousDate', { previousDate: new Date() }).getMany()
+    const offset = (requestOffer.pageNumber - 1) * requestOffer.pageSize
+    const offerModel = await this.offerRepository.createQueryBuilder('currencyOffer')
+      .where('"currencyOffer"."CreationTime" > :previousDate', { previousDate })
+      .orderBy('"currencyOffer"."CreationTime"', 'DESC')
+      .skip(offset)
+      .take(requestOffer.pageSize)
+      .getMany()
     return offerMapper.mapArray(offerModel, Offer, CurrencyOfferModel)
   }
 

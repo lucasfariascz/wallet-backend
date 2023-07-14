@@ -6,6 +6,8 @@ import { handleError } from '@/shared/errors/error-handler'
 import { ListOffersOutputDTO } from '../dto/list-offers-output.dto'
 import { offerMapper } from '@/configuration/automapper/mapper.offer'
 import { Offer } from '../../domain/entities/offer'
+import { Request } from 'express'
+import { ListOffersDTO } from '../dto/list-offers.dto'
 
 @controller('/list-offers')
 export class ListOffersController {
@@ -15,11 +17,18 @@ export class ListOffersController {
   }
 
   @httpGet('/')
-  async listOffers(): Promise<ListOffersOutputDTO[]> {
+  async listOffers(request: Request): Promise<ListOffersDTO> {
+    const offer = new Offer()
+    offer.pageSize = request.body.pageSize
+    offer.pageNumber = request.body.pageNumber
     return this.listOffersUseCase
-      .execute()
+      .execute(offer)
       .then((offer) => {
-        return offerMapper.mapArray(offer, Offer, ListOffersOutputDTO)
+        const listOffersOutputDTO = offerMapper.mapArray(offer, ListOffersOutputDTO, Offer)
+        const listOffersDTO = new ListOffersDTO()
+        listOffersDTO.listOffers = listOffersOutputDTO
+        listOffersDTO.totalOffer = listOffersOutputDTO.length
+        return listOffersDTO
       })
       .catch((error) => {
         throw handleError(error)

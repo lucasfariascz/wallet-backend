@@ -3,7 +3,7 @@ import { SubmitOfferInputDTO } from '../../presentation/dto/submit-offer.input.d
 import { Offer } from '../entities/offer'
 
 export interface OfferRepository {
-  listOffers(): Promise<Offer[]>
+  listOffers(requestOffer: Offer): Promise<Offer[]>
   submitOffer(submitRequest: SubmitOfferInputDTO): Promise<string>
   deleteOffer(deleteRequest: DeleteOfferInputDTO): Promise<string>
 }
