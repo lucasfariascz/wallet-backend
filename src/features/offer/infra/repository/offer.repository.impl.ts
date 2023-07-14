@@ -57,7 +57,15 @@ export class OfferRepositoryImpl implements OfferRepository {
   }
 
   async deleteOffer(deleteRequest: DeleteOfferInputDTO): Promise<string> {
-    await this.offerRepository.softDelete(deleteRequest.currencyOfferId)
-    return 'Sucesso!'
+    const isOwner = await this.offerRepository.createQueryBuilder('currencyOffer')
+      .where('currencyOffer.id = :id', { id: deleteRequest.currencyOfferId })
+      .andWhere('currencyOffer.userId = :userId', { userId: deleteRequest.userId })
+      .getCount()
+
+    if (isOwner) {
+      await this.offerRepository.softDelete(deleteRequest.currencyOfferId)
+      return 'Deletado com sucesso!'
+    }
+    return 'Não foi possível deletar!'
   }
 }

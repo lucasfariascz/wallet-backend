@@ -16,6 +16,9 @@ import { ListOffersUseCase } from '@/features/offer/domain/use-cases/list-offers
 import { SubmitOfferController } from '@/features/offer/presentation/controller/submit-offer.controller'
 import { SubmitOfferUseCase } from '@/features/offer/domain/use-cases/submit-offer.use-case'
 import { SubmitOfferUseCaseImpl } from '@/features/offer/domain/use-cases/submit-offer.use-case.impl'
+import { DeleteOfferController } from '@/features/offer/presentation/controller/delete-offer.controller'
+import { DeleteOfferUseCase } from '@/features/offer/domain/use-cases/delete-offer.use-case'
+import { DeleteOfferUseCaseImpl } from '@/features/offer/domain/use-cases/delete-offer.use-case.impl'
 
 export function bindRepositories(DIContainer: Container) {
   DIContainer.bind<UserRepository>(TYPES.UserRepository).to(UserRepositoryImpl)
@@ -31,9 +34,11 @@ export function bindUseCases(DIContainer: Container) {
   DIContainer.bind<GetUserUseCase>(TYPES.GetUserUseCase).to(GetUserUseCaseImpl)
   DIContainer.bind<ListOffersUseCase>(TYPES.ListOffersUseCase).to(ListOffersUseCaseImpl)
   DIContainer.bind<SubmitOfferUseCase>(TYPES.SubmitOfferUseCase).to(SubmitOfferUseCaseImpl)
+  DIContainer.bind<DeleteOfferUseCase>(TYPES.DeleteOfferUseCase).to(DeleteOfferUseCaseImpl)
 }
 
 export function bindControllers(DIContainer: Container) {
   DIContainer.bind<ListOffersController>(ListOffersController).toSelf()
   DIContainer.bind<SubmitOfferController>(SubmitOfferController).toSelf()
+  DIContainer.bind<DeleteOfferController>(DeleteOfferController).toSelf()
 }
