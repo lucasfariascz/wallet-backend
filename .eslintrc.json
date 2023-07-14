@@ -1,0 +1,31 @@
+{
+    "env": {
+      "es2020": true,
+      "node": true,
+      "jest": true
+    },
+    "extends": ["standard", "plugin:@typescript-eslint/recommended"],
+    "parser": "@typescript-eslint/parser",
+    "overrides": [
+      {
+        "files": ["*.ts"],
+        "parserOptions": {
+          "project": ["./tsconfig.json"]
+        }
+      }
+    ],
+    "parserOptions": {
+      "ecmaVersion": 11,
+      "sourceType": "module"
+    },
+    "plugins": ["@typescript-eslint"],
+    "rules": {
+      "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars-experimental": "error",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-floating-promises": "error",
+      "space-before-function-paren":"off"
+    }
+  }
+  

@@ -1,0 +1,3 @@
+export const mockToken = () => {
+  return 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NTExNDk0MDMsImV4cCI6MTY1MTIzNTgwMywic3ViIjoiZjA3MTM3ZjQtZjZiNC0yZjg0LTgzYTctY2M1MGI1NDI5MDA1In0.VkP-uSRacQMLrm1oxvM3_wBpQBpAFcL5DVd60-jZQAU'
+}
