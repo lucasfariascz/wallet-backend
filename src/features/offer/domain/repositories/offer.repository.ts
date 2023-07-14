@@ -5,5 +5,6 @@ import { Offer } from '../entities/offer'
 export interface OfferRepository {
   listOffers(requestOffer: Offer): Promise<Offer[]>
   submitOffer(submitRequest: SubmitOfferInputDTO): Promise<string>
+  checkOffers(): Promise<number>
   deleteOffer(deleteRequest: DeleteOfferInputDTO): Promise<string>
 }

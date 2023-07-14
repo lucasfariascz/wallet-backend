@@ -17,9 +17,12 @@ export class SubmitOfferUseCaseImpl implements SubmitOfferUseCase {
 
   async execute(submitRequest: SubmitOfferInputDTO): Promise<string> {
     const userModel = await this.userRepository.checkUserWithBalance(submitRequest.userId, submitRequest.currencyId)
-    if (userModel.balances && userModel.balances.length > 0) {
-      if (userModel.balances[0].balance >= submitRequest.quantity) {
-        return await this.offerRepository.submitOffer(submitRequest)
+    const offerCount = await this.offerRepository.checkOffers()
+    if (offerCount < 5) {
+      if (userModel.balances && userModel.balances.length > 0) {
+        if (userModel.balances[0].balance >= submitRequest.quantity) {
+          return await this.offerRepository.submitOffer(submitRequest)
+        }
       }
     }
     return 'Não foi possível criar a oferta!'

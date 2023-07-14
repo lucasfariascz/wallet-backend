@@ -46,6 +46,16 @@ export class OfferRepositoryImpl implements OfferRepository {
     return 'Oferta criada com sucesso!'
   }
 
+  async checkOffers(): Promise<number> {
+    const currentDate = new Date()
+    const startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 0, 0, 0)
+    const endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59)
+    return await this.offerRepository
+      .createQueryBuilder('currencyOffer')
+      .where('currencyOffer.creationTime >= :startDate', { startDate })
+      .andWhere('currencyOffer.creationTime <= :endDate', { endDate }).getCount()
+  }
+
   async deleteOffer(deleteRequest: DeleteOfferInputDTO): Promise<string> {
     await this.offerRepository.softDelete(deleteRequest.currencyOfferId)
     return 'Sucesso!'
